@@ -1,0 +1,6 @@
+# Mac
+.DS_Store
+
+# 忽略自動生成的檔案
+node_modules
+build

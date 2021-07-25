@@ -14,7 +14,11 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', 'jest'],
+  rules: {
+    'react/display-name': 0,
+  },
   globals: {
     ENV: true,
+    FIREBASE_CONFIG: true,
   },
 };

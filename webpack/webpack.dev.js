@@ -46,7 +46,7 @@ module.exports = merge(webpackCommon, {
   // Dev Server 設定
   devServer: {
     host: 'localhost',
-    port: 8080,
+    port: 8082,
     publicPath: '/',
     contentBase: path.resolve(__dirname, '../build'),
     hot: true,

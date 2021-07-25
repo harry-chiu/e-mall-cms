@@ -1,3 +1,10 @@
+# 1.0.0 (2021-07-25)
+
+
+### Features
+
+* initiailze ([e50c8e6](https://github.com/harry-chiu/e-mall-cms/commit/e50c8e60eac1d35e98aa78149a6017d313e886cb))
+
 # 1.0.0 (2020-12-09)
 
 

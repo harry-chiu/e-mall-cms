@@ -1,17 +1,3 @@
-# Webpack React Starter
+# E-MALL CMS
 
-A basic webpack starter for React.
-
-## Includes
-
-- Webpack
-- Babel
-- ESLint
-- Prettier
-- Sementic Release
-- GitLab CI
-- GitHub Actions
-- Husky + CommitLint
-- React
-- Jest
-- React Testing Library
+[DEMO](https://harry-chiu.github.io/e-mall-cms/)

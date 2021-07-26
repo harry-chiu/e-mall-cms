@@ -3,7 +3,7 @@ const { HashedModuleIdsPlugin } = require('webpack').ids;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const { merge } = require('webpack-merge');
 const webpackCommon = require('./webpack.common');
@@ -16,7 +16,7 @@ module.exports = merge(webpackCommon, {
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
-    publicPath: '/',
+    publicPath: '/e-mall-cms/',
   },
 
   // 優化設定
@@ -95,12 +95,12 @@ module.exports = merge(webpackCommon, {
 
     // webpack-bundle-analyzer
     // 分析打包後的專案大小
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
 
   // 性能相關
   // 篩選要計算性能的檔案
   performance: {
-    hints: 'error',
+    hints: 'warning',
   },
 });

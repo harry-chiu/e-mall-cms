@@ -2,6 +2,7 @@ const path = require('path');
 const { DefinePlugin } = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
+const ENV_CONFIG = require('../env.config.json');
 
 module.exports = {
   // Application 入口
@@ -135,6 +136,7 @@ module.exports = {
     // 全域變數 插件
     new DefinePlugin({
       ENV: JSON.stringify(process.env.NODE_ENV),
+      FIREBASE_CONFIG: JSON.stringify(ENV_CONFIG.FIREBASE_CONFIG),
     }),
 
     // Copy 插件

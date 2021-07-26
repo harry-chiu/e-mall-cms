@@ -22,3 +22,23 @@ export const CATEGORY_FORM_MESSAGE_MAP = {
   add: '新增成功',
   edit: '編輯成功',
 };
+
+export const CATEGORY_SUBMIT_TEXT_MAP = {
+  add: '新增',
+  edit: '儲存',
+};
+
+export const PRODUCT_FORM_TITLE_MAP = {
+  add: '新增商品',
+  edit: '編輯商品',
+};
+
+export const PRODUCT_FORM_MESSAGE_MAP = {
+  add: '新增成功',
+  edit: '儲存成功',
+};
+
+export const PRODUCT_SUBMIT_TEXT_MAP = {
+  add: '新增',
+  edit: '儲存',
+};

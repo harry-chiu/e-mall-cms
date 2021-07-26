@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import firebase from 'firebase/app';
 import {
   Card,
-  Space,
   Table,
+  Space,
   Button,
   Drawer,
   Popconfirm,
@@ -12,22 +12,18 @@ import {
 } from 'antd';
 import { PlusOutlined as AddIcon } from '@ant-design/icons';
 import PageLayout from 'components/PageLayout';
-import CategoryForm from 'forms/CategoryForm';
+import ProductForm from 'forms/ProductForm';
+import { PRODUCT_FORM_TITLE_MAP } from 'constants/index';
 import showMessage from 'utils/showMessage';
-import { CATEGORY_FORM_TITLE_MAP } from 'constants/index';
 import { columns } from './config';
 
-const CategoryPage = ({ history }) => {
+const ProductPage = ({ history }) => {
   const [update, setUpdate] = useState(new Date());
-  const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [formType, setFormType] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [categories, setCategories] = useState([]);
-
-  const goToHomePage = () => {
-    history?.push?.('/');
-  };
+  const [visible, setVisible] = useState(false);
+  const [formType, setFormType] = useState('');
+  const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState([]);
 
   const updateData = () => {
     setUpdate(new Date());
@@ -41,31 +37,37 @@ const CategoryPage = ({ history }) => {
     setLoading(false);
   };
 
-  const openAddForm = () => {
-    setFormType('add');
-    setVisible(true);
+  const goToHomePage = () => {
+    history?.push?.('/');
   };
 
-  const openEditForm = records => () => {
-    setCategory(records);
-    setFormType('edit');
+  const openDrawer = () => {
     setVisible(true);
   };
 
   const closeDrawer = () => {
     updateData();
-    setCategory(null);
     setVisible(false);
   };
 
-  const removeCategory = records => () => {
+  const openAddForm = () => {
+    setFormType('add');
+    openDrawer();
+  };
+
+  const openEditForm = records => () => {
+    setProduct(records);
+    setFormType('edit');
+    openDrawer();
+  };
+
+  const removeProduct = records => () => {
     startLoading();
 
     firebase
       .database()
-      .ref(`/categories/${records?.id}`)
-      .set({})
-      .then(updateData)
+      .ref(`/products/${records?.id}`)
+      .update({})
       .then(showMessage('刪除成功', 'success'))
       .catch(showMessage('發生錯誤', 'error'))
       .finally(stopLoading);
@@ -75,19 +77,15 @@ const CategoryPage = ({ history }) => {
     ...prevColumns,
     {
       title: '功能',
-      key: 'actions',
-      width: 160,
+      fixed: 'right',
+      width: 120,
       render: (_, records) => (
         <Space size={16}>
           <Typography.Link onClick={openEditForm(records)}>
             編輯
           </Typography.Link>
 
-          <Popconfirm
-            title="刪除分類"
-            okType="danger"
-            onConfirm={removeCategory(records)}
-          >
+          <Popconfirm onConfirm={removeProduct(records)}>
             <Typography.Link type="danger">刪除</Typography.Link>
           </Popconfirm>
         </Space>
@@ -100,18 +98,18 @@ const CategoryPage = ({ history }) => {
 
     firebase
       .database()
-      .ref('/categories')
+      .ref('/products')
       .once('value', snapshot => {
-        const newCategories = Object.values(snapshot.val() || {});
+        const newProduces = Object.values(snapshot.val() || {});
 
-        setCategories(newCategories);
+        setProducts(newProduces);
       })
       .finally(stopLoading);
   }, [update]);
 
   return (
     <PageLayout
-      title="分類管理"
+      title="商品管理"
       extra={
         <Button type="primary" icon={<AddIcon />} onClick={openAddForm}>
           新增
@@ -121,32 +119,29 @@ const CategoryPage = ({ history }) => {
     >
       <Card>
         <Table
-          rowKey="name"
+          rowKey="id"
           loading={loading}
-          dataSource={categories}
           columns={withActions(columns)}
+          dataSource={products}
+          scroll={{ x: 1440 }}
         />
-
-        <Drawer
-          destroyOnClose
-          visible={visible}
-          width={320}
-          title={CATEGORY_FORM_TITLE_MAP?.[formType]}
-          onClose={closeDrawer}
-        >
-          <CategoryForm
-            type={formType}
-            category={category}
-            onEnd={closeDrawer}
-          />
-        </Drawer>
       </Card>
+
+      <Drawer
+        destroyOnClose
+        width={320}
+        title={PRODUCT_FORM_TITLE_MAP?.[formType]}
+        visible={visible}
+        onClose={closeDrawer}
+      >
+        <ProductForm type={formType} product={product} onEnd={closeDrawer} />
+      </Drawer>
     </PageLayout>
   );
 };
 
-CategoryPage.propTypes = {
+ProductPage.propTypes = {
   history: PropTypes.object,
 };
 
-export default CategoryPage;
+export default ProductPage;

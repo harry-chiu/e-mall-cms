@@ -1,3 +1,16 @@
+# [1.1.0](https://github.com/harry-chiu/e-mall-cms/compare/v1.0.0...v1.1.0) (2021-07-26)
+
+
+### Bug Fixes
+
+* gh-pages automatic deploy ([abf5bcf](https://github.com/harry-chiu/e-mall-cms/commit/abf5bcfab5b92effacd724b77ecf2eead7b7d6ee))
+
+
+### Features
+
+* category CRUD features ([96e181f](https://github.com/harry-chiu/e-mall-cms/commit/96e181fb052670004cb6d84f847e40585c439eb7))
+* product CRUD ([65b3883](https://github.com/harry-chiu/e-mall-cms/commit/65b388334be4a9e9dd1e4563e552fc9fcc4fdb3f))
+
 # 1.0.0 (2021-07-25)
 
 

@@ -1,33 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { v1 as uuidV1 } from 'uuid';
 import firebase from 'firebase/app';
 import { Form, Input, Button } from 'antd';
 import showMessage from 'utils/showMessage';
-import { CATEGORY_FORM_MESSAGE_MAP } from 'constants/index';
+import {
+  CATEGORY_FORM_MESSAGE_MAP,
+  CATEGORY_SUBMIT_TEXT_MAP,
+} from 'constants/index';
 import { styles, initialValues } from './config';
 
 const CategoryForm = ({ type, category, onEnd }) => {
-  const submitCategory = values => {
-    const id = category?.id || uuidV1();
-    const successText = CATEGORY_FORM_MESSAGE_MAP?.[type];
+  const [loading, setLoading] = useState(false);
 
+  const startLoading = () => {
+    setLoading(true);
+  };
+
+  const stopLoading = () => {
+    setLoading(false);
+  };
+
+  const submit = values => {
+    startLoading();
+
+    const successText = CATEGORY_FORM_MESSAGE_MAP?.[type];
     const newCategory = {
-      id,
       name: values?.name,
     };
 
     firebase
       .database()
-      .ref(`/categories/${id}`)
+      .ref(`/categories/${values?.name}`)
       .update(newCategory)
       .then(showMessage(successText, 'success'))
       .catch(showMessage('發生錯誤', 'error'))
+      .then(stopLoading)
       .finally(onEnd);
   };
 
   return (
-    <Form initialValues={category || initialValues} onFinish={submitCategory}>
+    <Form
+      layout="vertical"
+      initialValues={category || initialValues}
+      onFinish={submit}
+    >
       <Form.Item
         name="name"
         label="分類名稱"
@@ -41,9 +57,11 @@ const CategoryForm = ({ type, category, onEnd }) => {
           block
           type="primary"
           htmlType="submit"
+          loading={loading}
+          disabled={loading}
           style={styles.SubmitButton}
         >
-          新增
+          {CATEGORY_SUBMIT_TEXT_MAP?.[type] || '儲存'}
         </Button>
       </Form.Item>
     </Form>
